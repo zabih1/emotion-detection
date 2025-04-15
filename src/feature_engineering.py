@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import os
 from sklearn.feature_extraction.text import CountVectorizer
+import yaml
+
 
 train_data = pd.read_csv("data/processed/train_processed.csv")
 test_data = pd.read_csv("data/processed/test_processed.csv")
-
-
 
 
 X_train = train_data['content'].values
@@ -16,7 +16,8 @@ X_test = test_data['content'].values
 y_test = test_data['sentiment'].values
 
 
-vectorizer = CountVectorizer()
+max_features = yaml.safe_load(open("params.yaml", 'r'))['feature_engineering']['max_features']
+vectorizer = CountVectorizer(max_features=max_features)
 
 X_train_bow = vectorizer.fit_transform(X_train)
 
